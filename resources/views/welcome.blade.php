@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('body-class', 'landing-page sidebar-collapse')
+@section('title', 'Bienvenido a App Shop')
+
+@section('body-class', 'landing-page')
 
 @section('content')
 <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ asset('/img/profile_city.jpg') }}');">
@@ -22,8 +24,8 @@
       <div class="section text-center">
         <div class="row">
           <div class="col-md-8 ml-auto mr-auto">
-            <h2 class="title">Let&apos;s talk product</h2>
-            <h5 class="description">This is the paragraph where you can write more details about your product. Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious, otherwise he wouldn&apos;t scroll to get here. Add a button if you want the user to see more.</h5>
+            <h2 class="title">Por qué App Shop</h2>
+            <h5 class="description">Puedes revisar nuestra relación completa de productos, comparar precios y realizar tus pedidos cuando estés seguro.</h5>
           </div>
         </div>
         <div class="features">
@@ -33,8 +35,8 @@
                 <div class="icon icon-info">
                   <i class="material-icons">chat</i>
                 </div>
-                <h4 class="info-title">Free Chat</h4>
-                <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                <h4 class="info-title">Atendemos tus dudas</h4>
+                <p>Atendemos rápidamentes cualquier consulta que tengas vía chat. No estás sólo, sino que siempre estamos atentos a tus inquietudes.</p>
               </div>
             </div>
             <div class="col-md-4">
@@ -42,8 +44,8 @@
                 <div class="icon icon-success">
                   <i class="material-icons">verified_user</i>
                 </div>
-                <h4 class="info-title">Verified Users</h4>
-                <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                <h4 class="info-title">Pago seguro</h4>
+                <p>Todo pedido que realices será confirmado a través de una llamada, sino confias en lo spagos en línea puedes pagar contra entrega el valor acordado.</p>
               </div>
             </div>
             <div class="col-md-4">
@@ -51,8 +53,8 @@
                 <div class="icon icon-danger">
                   <i class="material-icons">fingerprint</i>
                 </div>
-                <h4 class="info-title">Fingerprint</h4>
-                <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                <h4 class="info-title">Información privada</h4>
+                <p>Los pedidos que realices sólo los cococerás tú a través de tu panel de usuario. Nadie más tiene acceso a está información.</p>
               </div>
             </div>
           </div>
@@ -67,11 +69,11 @@
               <div class="team-player">
                 <div class="card card-plain">
                   <div class="col-md-6 ml-auto mr-auto">
-                    <img src="{{ asset('/img/faces/avatar.jpg') }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                    <img src="{{ $product->images()->first()->image }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
                   <h4 class="card-title">{{ $product -> name }}
                     <br>
-                    <small class="card-description text-muted">Model</small>
+                    <small class="card-description text-muted">{{ $product->category->name }}</small>
                   </h4>
                   <div class="card-body">
                     <p class="card-description">{{ $product -> description }}</p>
@@ -91,31 +93,31 @@
       <div class="section section-contacts">
         <div class="row">
           <div class="col-md-8 ml-auto mr-auto">
-            <h2 class="text-center title">Work with us</h2>
-            <h4 class="text-center description">Divide details about your product or agency work into parts. Write a few lines about each one and contact us about any further collaboration. We will responde get back to you in a couple of hours.</h4>
+            <h2 class="text-center title">¿Aún no te has registrado?</h2>
+            <h4 class="text-center description">Registrate ingresando tus datos básicos, y podrás realizar tus pedido a través de nuestro carrito de compras. Si aún no te decides, de todas formas, con tu cuenta de usuario podrás hacer todas tus consultas sin compromiso.</h4>
             <form class="contact-form">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Your Name</label>
+                    <label class="bmd-label-floating">Nombre</label>
                     <input type="email" class="form-control">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Your Email</label>
+                    <label class="bmd-label-floating">Correo electrónico</label>
                     <input type="email" class="form-control">
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label for="exampleMessage" class="bmd-label-floating">Your Message</label>
+                <label for="exampleMessage" class="bmd-label-floating">Tu mensaje</label>
                 <textarea type="email" class="form-control" rows="4" id="exampleMessage"></textarea>
               </div>
               <div class="row">
                 <div class="col-md-4 ml-auto mr-auto text-center">
                   <button class="btn btn-primary btn-raised">
-                    Send Message
+                    Enviar consulta
                   </button>
                 </div>
               </div>
@@ -125,39 +127,5 @@
       </div>
     </div>
   </div>
-  <footer class="footer footer-default">
-    <div class="container">
-      <nav class="float-left">
-        <ul>
-          <li>
-            <a href="https://www.creative-tim.com">
-              Creative Tim
-            </a>
-          </li>
-          <li>
-            <a href="https://creative-tim.com/presentation">
-              About Us
-            </a>
-          </li>
-          <li>
-            <a href="http://blog.creative-tim.com">
-              Blog
-            </a>
-          </li>
-          <li>
-            <a href="https://www.creative-tim.com/license">
-              Licenses
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="copyright float-right">
-        &copy;
-        <script>
-          document.write(new Date().getFullYear())
-        </script>, made with <i class="material-icons">favorite</i> by
-        <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-      </div>
-    </div>
-  </footer>
+  @include('includes.footer')
 @endsection
