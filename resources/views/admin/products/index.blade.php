@@ -43,7 +43,7 @@
                       <a href="{{ url('/admin/products/'.$product->id.'/edit') }}" type="button" rel="tooltip" title="Editar producto" class="btn btn-success btn-simple btn-xs">
                         <i class="material-icons">edit</i>
                       </a>
-                      <a href="{{ url('/admin/products/'.$product->id.'/edit') }}" type="button" rel="tooltip" title="Imágenes del producto" class="btn btn-warning btn-simple btn-xs">
+                      <a href="{{ url('/admin/products/'.$product->id.'/images') }}" type="button" rel="tooltip" title="Imágenes del producto" class="btn btn-warning btn-simple btn-xs">
                         <i class="material-icons">image</i>
                       </a>
                       <button type="submit" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple btn-xs">
