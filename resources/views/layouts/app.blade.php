@@ -6,9 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/img/apple-icon.png') }}">
   <link rel="icon" type="image/png" href="{{ asset('/img/favicon.png') }}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    App Shop
-  </title>
+  <title>@yield('title', 'App Shop')</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -21,7 +19,7 @@
 
 <body class="@yield('body-class')">
   <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
-    <div class="container">
+    <div class="container col-md-10">
       <div class="navbar-translate">
         <a class="navbar-brand" href="{{ url('/') }}">
           App Shop </a>
@@ -40,11 +38,16 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registro</a></li>
             @else
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                    <a href="#" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
 
                     <ul class="dropdown-menu">
+                        @if(auth()->user()->admin)
+                        <li>
+                          <a href="{{ url('/admin/products') }}">Gestionar Productos</a>
+                        </li>
+                        @endif
                         <li>
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
