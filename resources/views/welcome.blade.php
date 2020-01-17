@@ -9,16 +9,55 @@
       .team.row.col-md-4{
         margin-bottom: 5em;
       }
-      .row{
+      .team .row{
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
         flex-wrap: wrap;
       }
-      .row > [class*='col-']{
+      .team .row > [class*='col-']{
         display: flex;
         flex-direction: column;
+      }
+      .tt-query {
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      }
+
+      .tt-hint {
+        color: #999
+      }
+
+      .tt-menu {    /* used to be tt-dropdown-menu in older versions */
+        width: 222px;
+        margin-top: 4px;
+        padding: 4px 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+                border-radius: 4px;
+        -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+                box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      }
+
+      .tt-suggestion {
+        padding: 3px 20px;
+        line-height: 24px;
+      }
+
+      .tt-suggestion.tt-cursor,.tt-suggestion:hover {
+        color: #fff;
+        background-color: #0097cf;
+
+      }
+
+      .tt-suggestion p {
+        margin: 0;
       }
     </style>
 @endsection
@@ -80,31 +119,37 @@
         </div>
       </div>
       <div class="section text-center">
-        <h2 class="title">Productos Disponibles</h2>
+        <h2 class="title">Visita nuestras categorías</h2>
+        <div class="text-center">
+          <form action="{{ url('/search') }}" method="GET" class="form-inline">
+            <input type="text" placeholder="¿Qué producto buscas?" class="form-control" name="query" id="search">
+            <button class="btn btn-primary btn-just-icon" type="submit">
+              <i class="material-icons">search</i>
+            </button>
+          </form>
+        </div>
+
         <div class="team">
           <div class="row">
-            @foreach($products as $product)
+            @foreach($categories as $category)
             <div class="col-md-4">
               <div class="team-player">
                 <div class="card card-plain">
                   <div class="col-md-6 ml-auto mr-auto">
-                    <img src="{{ $product->featured_image_url }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                    <img src="{{ $category->featured_image_url }}" alt="Imágen representativa de la categoría {{ $category->name }}" class="img-raised rounded-circle img-fluid">
                   </div>
                   <h4 class="card-title">
-                  <a href="{{ url('/products/'.$product->id) }}">{{ $product->name }}</a>
+                  <a href="{{ url('/categories/'.$category->id) }}">{{ $category->name }}</a>
                     <br>
-                    <small class="card-description text-muted">{{ $product->category_name }}</small>
+                    <small class="card-description text-muted">{{ $category->category_name }}</small>
                   </h4>
                   <div class="card-body">
-                    <p class="card-description">{{ $product->description }}</p>
+                    <p class="card-description">{{ $category->description }}</p>
                   </div>
                 </div>
               </div>
             </div>
             @endforeach
-          </div>
-          <div class="text-center">
-            {{ $products->links() }}
           </div>
         </div>
       </div>
@@ -113,29 +158,25 @@
           <div class="col-md-8 ml-auto mr-auto">
             <h2 class="text-center title">¿Aún no te has registrado?</h2>
             <h4 class="text-center description">Registrate ingresando tus datos básicos, y podrás realizar tus pedido a través de nuestro carrito de compras. Si aún no te decides, de todas formas, con tu cuenta de usuario podrás hacer todas tus consultas sin compromiso.</h4>
-            <form class="contact-form">
+            <form class="contact-form" method="GET" action="{{ url('/register') }}">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="bmd-label-floating">Nombre</label>
-                    <input type="email" class="form-control">
+                    <input type="text" class="form-control" name="name">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="bmd-label-floating">Correo electrónico</label>
-                    <input type="email" class="form-control">
+                    <input type="email" class="form-control" name="email">
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="exampleMessage" class="bmd-label-floating">Tu mensaje</label>
-                <textarea type="email" class="form-control" rows="4" id="exampleMessage"></textarea>
-              </div>
               <div class="row">
                 <div class="col-md-4 ml-auto mr-auto text-center">
-                  <button class="btn btn-primary btn-raised">
-                    Enviar consulta
+                  <button class="btn btn-primary btn-raised" type="submit">
+                    Iniciar registro
                   </button>
                 </div>
               </div>
@@ -146,4 +187,28 @@
     </div>
   </div>
   @include('includes.footer')
+@endsection
+
+@section('scripts')
+  <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+  <script>
+    $(function(){
+      //
+      var products = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //'states' is an array of state names defined in "The basic"
+        prefetch: '{{ url("/products/json") }}'
+      });
+      //inicializar typeahead sobre nuestro input de búsqueda
+      $('#search').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+      }, {
+        name: 'products',
+        source: products
+      });
+    });
+  </script>
 @endsection

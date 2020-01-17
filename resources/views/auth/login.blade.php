@@ -8,6 +8,15 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
           <div class="card card-login">
+            @if($errors->any())
+              <div class="alert alert-danger">
+                <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
             <form class="form" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
               <div class="card-header card-header-primary text-center">
@@ -22,7 +31,7 @@
                       <i class="material-icons">mail</i>
                     </span>
                   </div>
-                  <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Correo Electrónico" required autofocus>
+                  <input id="email" type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Correo Electrónico" required autofocus>
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
