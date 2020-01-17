@@ -19,7 +19,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/cart', 'CartDetailController@store');
 Route::delete('/cart', 'CartDetailController@destroy');
 
+Route::get('/search', 'SearchController@show');
+Route::get('/products/json', 'SearchController@data');
+
 Route::get('/products/{id}', 'ProductController@show');
+Route::get('/categories/{category}', 'CategoryController@show');
 
 Route::post('/order', 'CartController@update');
 
