@@ -15,6 +15,7 @@
   <link href="{{ asset('css/material-kit.css') }}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('css/material-kit.min.css') }}" rel="stylesheet" />
+  @yield('styles')
 </head>
 
 <body class="@yield('body-class')">
@@ -43,7 +44,13 @@
                     </a>
 
                     <ul class="dropdown-menu">
+                        <li>
+                          <a href="{{ url('/home') }}">Dashboard</a>
+                        </li>
                         @if(auth()->user()->admin)
+                        <li>
+                          <a href="{{ url('/admin/categories') }}">Gestionar Categorías</a>
+                        </li>
                         <li>
                           <a href="{{ url('/admin/products') }}">Gestionar Productos</a>
                         </li>

@@ -4,6 +4,25 @@
 
 @section('body-class', 'landing-page')
 
+@section('styles')
+    <style>
+      .team.row.col-md-4{
+        margin-bottom: 5em;
+      }
+      .row{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .row > [class*='col-']{
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+@endsection
+
 @section('content')
 <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{ asset('/img/profile_city.jpg') }}');">
     <div class="container">
@@ -71,22 +90,21 @@
                   <div class="col-md-6 ml-auto mr-auto">
                     <img src="{{ $product->featured_image_url }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
-                  <h4 class="card-title">{{ $product -> name }}
+                  <h4 class="card-title">
+                  <a href="{{ url('/products/'.$product->id) }}">{{ $product->name }}</a>
                     <br>
-                    <small class="card-description text-muted">{{ $product->category->name }}</small>
+                    <small class="card-description text-muted">{{ $product->category_name }}</small>
                   </h4>
                   <div class="card-body">
-                    <p class="card-description">{{ $product -> description }}</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-twitter"></i></a>
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
+                    <p class="card-description">{{ $product->description }}</p>
                   </div>
                 </div>
               </div>
             </div>
             @endforeach
+          </div>
+          <div class="text-center">
+            {{ $products->links() }}
           </div>
         </div>
       </div>
