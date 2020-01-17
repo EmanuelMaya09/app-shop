@@ -44,7 +44,13 @@
                     </a>
 
                     <ul class="dropdown-menu">
+                        <li>
+                          <a href="{{ url('/home') }}">Dashboard</a>
+                        </li>
                         @if(auth()->user()->admin)
+                        <li>
+                          <a href="{{ url('/admin/categories') }}">Gestionar Categorías</a>
+                        </li>
                         <li>
                           <a href="{{ url('/admin/products') }}">Gestionar Productos</a>
                         </li>

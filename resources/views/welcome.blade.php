@@ -9,6 +9,17 @@
       .team.row.col-md-4{
         margin-bottom: 5em;
       }
+      .row{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .row > [class*='col-']{
+        display: flex;
+        flex-direction: column;
+      }
     </style>
 @endsection
 
@@ -80,19 +91,19 @@
                     <img src="{{ $product->featured_image_url }}" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
                   <h4 class="card-title">
-                  <a href="{{ url('/products/'.$product->id) }}">{{ $product -> name }}</a>
+                  <a href="{{ url('/products/'.$product->id) }}">{{ $product->name }}</a>
                     <br>
-                    <small class="card-description text-muted">{{ $product->category->name }}</small>
+                    <small class="card-description text-muted">{{ $product->category_name }}</small>
                   </h4>
                   <div class="card-body">
-                    <p class="card-description">{{ $product -> description }}</p>
+                    <p class="card-description">{{ $product->description }}</p>
                   </div>
                 </div>
               </div>
             </div>
             @endforeach
           </div>
-          <div class="row">
+          <div class="text-center">
             {{ $products->links() }}
           </div>
         </div>

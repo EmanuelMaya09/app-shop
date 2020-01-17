@@ -11,9 +11,9 @@
     <div class="container col-md-10">
       <div class="section">
         <h2 class="title  text-center">Dashboard</h2>
-        @if (session('status'))
+        @if (session('notification'))
             <div class="alert alert-success">
-                {{ session('status') }}
+                {{ session('notification') }}
             </div>
         @endif
 
@@ -22,7 +22,7 @@
                 color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
             -->
             <li class="nav-item">
-                <a class="nav-link" href="#dashboard-1" role="tab" data-toggle="tab">
+                <a class="nav-link active" href="#dashboard-1" role="tab" data-toggle="tab">
                     <i class="material-icons">dashboard</i>
                     Carrito de compras
                 </a>
@@ -34,17 +34,66 @@
                 </a>
             </li>
         </ul>
-        <div class="tab-content tab-space">
-            <div class="tab-pane active" id="dashboard-1">
-              Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.
-              <br><br>
-              Dramatically visualize customer directed convergence without revolutionary ROI.
-            </div>
-            <div class="tab-pane" id="tasks-1">
-                Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.
-                <br><br>Dynamically innovate resource-leveling customer service for state of the art customer service.
-            </div>
-        </div>
+        <hr>
+        @if(auth()->user()->cart->details->count()==0)
+          <p>No tienes productos agregados a tu carrito</p>
+        @endif
+        @if(auth()->user()->cart->details->count()==1)
+         <p>Tu carrito de compras presenta {{ auth()->user()->cart->details->count() }} producto.</p>
+         @endif
+        @if(auth()->user()->cart->details->count()>1)
+         <p>Tu carrito de compras presenta {{ auth()->user()->cart->details->count() }} productos.</p>
+         @endif
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th style="width: 20%">Nombre</th>             
+              <th class="text-center">Precio</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-center">Subtotal</th>
+              <th class="text-center">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (auth()->user()->cart->details as $detail)
+            <tr>
+              <td class="text-center">
+                <img src="{{ $detail->product->featured_image_url }}" alt="" height="50">
+              </td>
+              <td>
+                <a href="{{ url('/products/'.$detail->product->id) }}" target="_blank">{{ $detail->product->name }}</a>
+              </td>               
+              <td class="text-center">$ {{ $detail->product->price }}</td>
+              <td class="text-center">{{ $detail->quantity }}</td>
+              <td class="text-center">$ {{ $detail->quantity * $detail->product->price }}</td>
+              <td class="td-actions text-center">
+                <form action="{{ url('/cart') }}" method="post">
+                  {{ csrf_field() }}
+                  {{ method_field('DELETE') }}
+                  <input type="hidden" name="cart_detail_id" value="{{ $detail->id }}">
+                  <a href="{{ url('/products/'.$detail->product->id) }}" target="_blank" rel="tooltip" title="Ver producto" class="btn btn-info btn-simple btn-xs">
+                    <i class="material-icons">info</i>
+                  </a>
+                  <button type="submit" rel="tooltip" title="Eliminar" class="btn btn-danger btn-simple btn-xs">
+                    <i class="material-icons">highlight_off</i>
+                  </button>
+                </form>
+              </td>
+            </tr>    
+            @endforeach
+          </tbody>
+        </table>
+        @if(auth()->user()->cart->details->count(0)>0)
+        <form action="{{ url('/order') }}" method="post">
+          {{ csrf_field() }}
+          <div class="text-center">
+            <button class="btn btn-primary btn-round">
+              <i class="material-icons">done</i> Realizar pedido
+            </button>
+          </div>
+        </form>
+        @endif
       </div>
     </div>
   </div>

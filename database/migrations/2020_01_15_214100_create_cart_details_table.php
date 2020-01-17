@@ -22,8 +22,8 @@ class CreateCartDetailsTable extends Migration
             $table->integer('product_id')->unsigned()->nullable();
             $table->foreign('product_id')->references('id')->on('products');
 
-            $table->integer('quentity');
-            $table->integer('discount'); // % int
+            $table->integer('quantity');
+            $table->integer('discount')->default(0); // % int
 
             $table->timestamps();
         });
